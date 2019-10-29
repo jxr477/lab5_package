@@ -3,16 +3,14 @@
   <!-- Create an argument to determine whether to use old or new xacro file. -->
   <arg name="old_xacro" default="false" />
 
-  <!-- Use old or new xacro file based on command -->
+  <!-- Use old or new xacro file based on command. -->
   <arg if="$(arg old_xacro)" name="filename" default="my_robot.xacro" />
   <arg unless="$(arg old_xacro)" name="filename" default="robot.xacro" />
   
-  <!-- The full path of the xacro file can be passed into the launch file instead.
--->
+  <!-- The full path of the xacro file can be passed into the launch file instead. -->
   <arg name="file" default="$(find lab5_package)/urdf/$(arg filename)" />
   
-  <!-- Use the file argument as the name of the file used to set the
-/robot_description parameter on the parameter server -->
+  <!-- Use the file argument as the name of the file used to set the /robot_description parameter on the parameter server. -->
   <param if="$(arg old_xacro)" name="robot_description" command="$(find
 xacro)/xacro.py --inorder $(arg file)" />
 <param unless="$(arg old_xacro)" name="robot_description" command="$(find
@@ -28,11 +26,11 @@ xacro)/xacro.py --inorder $(arg file)" />
   <param if="$(arg gui)" name="gui" value="true"/>
   <param unless="$(arg gui)" name="gui" value="false"/> 
     
-  <!-- Runs joint state publisher node if gui is true -->
+  <!-- If gui is true, runs joint state publisher node. -->
   <node if="$(arg gui)"  pkg="joint_state_publisher" type="joint_state_publisher"
      name="joint_state_publisher" />
 
-  <!-- Determines whether to use robot_state_publisher -->
+  <!-- Determines whether to use robot_state_publisher. -->
   <arg name="use_robot_state_publisher" default="true" />
     
   <arg if="$(arg use_robot_state_publisher)" name="robot_state_publisher" default="true" />
@@ -41,11 +39,11 @@ xacro)/xacro.py --inorder $(arg file)" />
   <param if="$(arg use_robot_state_publisher)" name="use_robot_state_publisher" value="true"/>
   <param unless="$(arg use_robot_state_publisher)" name="use_robot_state_publisher" value="false"/>
   
-  <!-- Runs robot_state_publisher if use_robot_state_publisher is true -->
+  <!-- Runs robot_state_publisher if use_robot_state_publisher is true. -->
   <node if="$(arg use_robot_state_publisher)"  pkg="robot_state_publisher" type="robot_state_publisher"
      name="robot_state_publisher" /> 
      
-  <!-- Code for using external clock -->
+  <!-- Determines whether to use external clock. -->
   <arg name="use_sim_time" default="false" />
     
   <arg if="$(arg use_sim_time)" name="sim_time" default="false" />
@@ -55,8 +53,7 @@ xacro)/xacro.py --inorder $(arg file)" />
   <param unless="$(arg use_sim_time)" name="use_sim_time" value="false"/> 
   
 
-  <!-- Run RVIZ and use a specific configuration file. If RVIZ is closed, close
-everything. -->
+  <!-- Run RVIZ using a specified configuration file. If RVIZ is closed, close everything. -->
   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find
 lab5_package)/config/config.rviz" required="true" />
 
